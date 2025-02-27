@@ -248,4 +248,71 @@ docker build -t matching-system .
 docker run -p 8080:8080 -e OPENAI_API_KEY=your_key_here matching-system
 ```
 
+### 📌 **Comparaison entre l'ancien fichier `matching.py` et la nouvelle version dans le projet**
+
+Après analyse approfondie, voici les **principales différences** entre la **première version de `matching.py`** et la **version actuelle dans le projet (`app/matching.py`)**.
+
+---
+
+## 🔍 **1. Changements structurels et organisationnels**
+### ✅ **Ancienne Version (`matching.py` fourni)**
+- **Plus structuré et modulaire** avec des classes bien définies pour :
+  - La gestion de la configuration (`AppConfig`).
+  - La gestion des modèles de données (candidats, emplois).
+  - Les services et l'intégration API.
+- **Implémente des techniques avancées** :
+  - **Correspondance sémantique hybride IA** pour l’appariement candidat-emploi.
+  - **Caching avec Redis** pour améliorer les performances.
+  - **Traitement parallèle** pour accélérer les calculs.
+- **Gestion robuste des erreurs et journalisation avancée (`logging`)**.
+
+### 🆕 **Nouvelle Version (`app/matching.py`)**
+- **Refactorisé pour une meilleure intégration avec l'architecture du projet**.
+- **Séparation des responsabilités** :
+  - `matching.py` ne gère plus directement la configuration, la journalisation ou les appels IA.
+  - Ces éléments sont déportés vers `settings.py`, `redis_config.py` et `services.py`.
+- **Meilleure maintenabilité** en utilisant `models.py` pour les objets candidats/emplois.
+
+---
+
+## 🚀 **2. Différences fonctionnelles**
+| **Fonctionnalité** | **Ancienne Version (`matching.py`)** | **Nouvelle Version (`app/matching.py`)** |
+|--------------------|---------------------------------|---------------------------------|
+| **Gestion de la configuration** | `AppConfig` intégré dans `matching.py` | Géré dans `config/settings.py` |
+| **Journalisation (`logging`)** | Configuré localement dans `matching.py` | Centralisé dans `settings.py` |
+| **Caching** | Redis & fichier local (au choix) | Redis via `config/redis_config.py` |
+| **Traitement par lot** | Traitement API OpenAI directement dans `matching.py` | Géré via `services.py` |
+| **Sélection du modèle IA** | Définie dans `matching.py` | Configurable via `settings.py` |
+| **Intégration API** | API Flask définie directement | API Flask déplacée vers `api.py` |
+| **Correspondance candidat-emploi** | Calculs directement dans `matching.py` | Répartis entre `services.py` et `models.py` |
+
+---
+
+## 🛠 **3. Différences techniques majeures**
+### **Ajouts et améliorations dans la nouvelle version :**
+1. **Réorganisation des imports**  
+   - Suppression des imports inutilisés.
+   - Déplacement de la configuration et de la journalisation vers `config/`.
+2. **Utilisation de `models.py`**  
+   - Les classes `Candidate` et `Job` sont maintenant définies dans `models.py` et non plus dans `matching.py`.
+3. **Délégation des interactions avec la base de données**  
+   - `matching.py` ne gère plus directement les bases de données : tout passe par `services.py`.
+4. **Gestion améliorée des appels IA**  
+   - Avant : `matching.py` gérait directement les requêtes vers OpenAI.
+   - Maintenant : `services.py` gère tous les appels IA (embeddings, similarités, GPT-4).
+5. **Refonte du système de scoring**  
+   - Avant : `calculate_match_score()` dans `matching.py` gérait tout.
+   - Maintenant : Le score est calculé via plusieurs fonctions dans `services.py` pour plus de modularité.
+
+---
+
+## 🏆 **Conclusion**
+La nouvelle version de `matching.py` est **plus robuste, évolutive et maintenable** :
+✅ **Architecture modulaire** → Séparation entre la logique métier, les modèles et les services.  
+✅ **Configuration flexible** → Tout est centralisé dans `settings.py` et `redis_config.py`.  
+✅ **API mieux structurée** → `matching.py` ne contient plus d’API, elles sont gérées via `api.py`.  
+✅ **Scalabilité améliorée** → Possibilité d’évoluer sans modifier le cœur du système.  
+
+💡 **Prochaine étape ?** Si nécessaire, je peux fournir un **fichier diff détaillé** pour une comparaison ligne par ligne. 🚀📂
+
 This setup guide should get you started with the matching system on any computer. The system is designed to be easy to install and use while providing powerful candidate-job matching capabilities.
