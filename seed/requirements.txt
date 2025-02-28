@@ -1,8 +1,0 @@
-# Python Dependencies
-fastapi
-uvicorn
-redis
-openai
-pydantic
-flask
-waitress
