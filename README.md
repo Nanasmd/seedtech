@@ -1,5 +1,5 @@
-# Guide d'Installation et d'Utilisation du SEED Tech Matching System
-*À destination des fondateurs non-techniques*
+# Guide d'Installation et d'Utilisation du SEED Tech 
+*À destination des fondateurs*
 
 ## Sommaire
 
