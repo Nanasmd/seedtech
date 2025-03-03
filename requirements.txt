@@ -1,6 +1,6 @@
 # Dépendances principales
 psycopg2-binary==2.9.9  # Connecteur PostgreSQL
-redis==5.0.1            # Client Redis
+types-redis==4.6.0.20241004            # Client Redis
 python-dotenv==1.0.1    # Gestion des variables d'environnement
 
 # Dépendances du projet SEED Tech

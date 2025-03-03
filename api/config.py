@@ -20,6 +20,17 @@ CACHE_EXPIRY_SECONDS = int(os.getenv('CACHE_EXPIRY_SECONDS', 604800))  # Durée 
 MAX_CACHE_ENTRIES = int(os.getenv('MAX_CACHE_ENTRIES', 100000))  # Nombre maximum d'entrées en cache
 DEBUG_MODE = os.getenv('DEBUG_MODE', 'False').lower() == 'true'
 
+# Répertoire pour les fichiers de cache
+CACHE_DIR = os.getenv('CACHE_DIR', os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cache'))
+os.makedirs(CACHE_DIR, exist_ok=True)  # Crée le répertoire s'il n'existe pas
+
+# Chemins des fichiers de cache
+NAME_CACHE_FILE = os.path.join(CACHE_DIR, 'name_similarity.pickle')
+HARD_SKILLS_CACHE_FILE = os.path.join(CACHE_DIR, 'hard_skills_similarity.pickle')
+SOFT_SKILLS_CACHE_FILE = os.path.join(CACHE_DIR, 'soft_skills_similarity.pickle')
+DEGREE_DOMAIN_CACHE_FILE = os.path.join(CACHE_DIR, 'degree_domain_similarity.pickle')
+MAX_CACHE_SIZE = int(os.getenv('MAX_CACHE_SIZE', 50000))  # Nombre maximum d'entrées en cache local
+
 # Configuration du matching
 SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.8"))  # Seuil de similarité minimum
 API_CALL_DELAY = float(os.getenv("API_CALL_DELAY", "0.2"))  # Délai entre appels API (secondes)
@@ -30,8 +41,10 @@ DEFAULT_MODEL = os.getenv("DEFAULT_MODEL", "gpt-4o-mini")  # Modèle d'IA à uti
 # Configuration de l'application
 DEBUG_MODE = os.getenv("DEBUG_MODE", "False").lower() == "true"  # Mode débogage (plus verbeux)
 
-# Création des répertoires nécessaires
-os.makedirs(os.path.dirname(DATABASE_URL), exist_ok=True)
+# Création des répertoires nécessaires - seulement si DATABASE_URL est défini
+if DATABASE_URL:
+    # Seulement tenter de créer le répertoire si DATABASE_URL est une valeur valide
+    os.makedirs(os.path.dirname(DATABASE_URL), exist_ok=True)
 
 # Poids de base pour les différentes dimensions du matching
 # Ces coefficients déterminent l'importance relative de chaque critère
