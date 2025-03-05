@@ -1,0 +1,36 @@
+{
+  "name": "seed-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "install:api-challenge": "yarn workspace @seed/api-challenge install",
+    "install:api-scoring": "yarn workspace @seed/api-scoring install",
+    "dev:backend": "yarn workspace @seed/backend dev",
+    "dev:frontend": "yarn workspace @seed/frontend dev",
+    "dev:web-site": "yarn workspace @seed/web-site dev",
+    "dev:storybook": "yarn workspace @seed/vector dev",
+    "dev:api-scoring": "yarn workspace @seed/api-scoring dev",
+    "dev:api-challenge": "yarn workspace @seed/api-challenge dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "prettier": "3.3.3",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": "20.18.0"
+  },
+  "packageManager": "yarn@4.4.0",
+  "workspaces": [
+    "packages/*",
+    "packages/apps/*",
+    "packages/libs/*",
+    "!packages/apps/mobile-app",
+    "!packages/libs/database",
+    "!packages/apps/api-challenge",
+    "!packages/apps/api-scoring"
+  ],
+  "version": "0.0.0"
+}
